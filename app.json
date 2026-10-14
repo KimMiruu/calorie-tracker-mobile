@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Calorie Tracker Mobile",
+    "slug": "calorie-tracker-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
+    "scheme": "calorie-tracker-mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

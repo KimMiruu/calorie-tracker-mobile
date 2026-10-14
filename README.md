@@ -4,6 +4,34 @@ Aplikasi mobile **tracking kalori** untuk mencatat konsumsi makanan, exercise, m
 
 Dibangun dengan [Expo](https://expo.dev) + React Native + TypeScript. Seluruh data disimpan secara lokal di perangkat melalui SQLite, sehingga aplikasi tetap bisa dipakai secara offline.
 
+## Repository
+
+| | |
+| --- | --- |
+| **Nama** | `calorie-tracker-mobile` |
+| **URL** | https://github.com/KimMiruu/calorie-tracker-mobile |
+| **Remote** | `origin` |
+| **Branch utama** | `main` |
+| **Lisensi** | Proyek pribadi dan portofolio |
+
+Clone repository:
+
+```bash
+git clone https://github.com/KimMiruu/calorie-tracker-mobile.git
+cd calorie-tracker-mobile
+npm install
+npx expo start
+```
+
+Isi repository:
+
+- Kode sumber aplikasi Expo (folder `app/`, `components/`, `utils/`, `services/`, `hooks/`, `constants/`)
+- Data master makanan dan workout (`assets/food.json`, `assets/tree.json`)
+- Konfigurasi proyek (`app.json`, `package.json`, `tsconfig.json`, `eslint.config.js`)
+- Dokumentasi pada `README.md`
+
+File `node_modules/`, folder native `android/` dan `ios/`, serta database lokal `backend/*.db` tidak disimpan di repository karena dapat dibuat ulang otomatis.
+
 ## Fitur
 
 | Modul | Fitur |
