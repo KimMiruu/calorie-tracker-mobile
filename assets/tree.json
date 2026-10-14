@@ -1,0 +1,116 @@
+{
+    "feature": "vegetarian",
+    "threshold": 0.5,
+    "left": {
+        "feature": "high_protein",
+        "threshold": 0.5,
+        "left": {
+            "leaf": true,
+            "class": 42
+        },
+        "right": {
+            "feature": "remaining_calories",
+            "threshold": 1780.0,
+            "left": {
+                "leaf": true,
+                "class": 5
+            },
+            "right": {
+                "feature": "remaining_calories",
+                "threshold": 1822.5,
+                "left": {
+                    "leaf": true,
+                    "class": 1
+                },
+                "right": {
+                    "feature": "remaining_calories",
+                    "threshold": 1871.0,
+                    "left": {
+                        "leaf": true,
+                        "class": 2
+                    },
+                    "right": {
+                        "feature": "remaining_calories",
+                        "threshold": 1960.0,
+                        "left": {
+                            "leaf": true,
+                            "class": 3
+                        },
+                        "right": {
+                            "leaf": true,
+                            "class": 4
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "right": {
+        "feature": "high_protein",
+        "threshold": 0.5,
+        "left": {
+            "feature": "remaining_calories",
+            "threshold": 1799.5,
+            "left": {
+                "leaf": true,
+                "class": 161
+            },
+            "right": {
+                "feature": "remaining_calories",
+                "threshold": 1885.0,
+                "left": {
+                    "leaf": true,
+                    "class": 37
+                },
+                "right": {
+                    "feature": "remaining_calories",
+                    "threshold": 1947.5,
+                    "left": {
+                        "leaf": true,
+                        "class": 33
+                    },
+                    "right": {
+                        "leaf": true,
+                        "class": 34
+                    }
+                }
+            }
+        },
+        "right": {
+            "feature": "remaining_calories",
+            "threshold": 1780.0,
+            "left": {
+                "leaf": true,
+                "class": 25
+            },
+            "right": {
+                "feature": "remaining_calories",
+                "threshold": 1811.0,
+                "left": {
+                    "leaf": true,
+                    "class": 16
+                },
+                "right": {
+                    "feature": "remaining_calories",
+                    "threshold": 1876.0,
+                    "left": {
+                        "leaf": true,
+                        "class": 0
+                    },
+                    "right": {
+                        "feature": "remaining_calories",
+                        "threshold": 1937.5,
+                        "left": {
+                            "leaf": true,
+                            "class": 17
+                        },
+                        "right": {
+                            "leaf": true,
+                            "class": 29
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

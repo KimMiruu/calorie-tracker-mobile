@@ -1,0 +1,8 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll.eslint": "never"
+  },
+  "typescript.preferences.organizeImports": false,
+  "javascript.preferences.organizeImports": false
+}
