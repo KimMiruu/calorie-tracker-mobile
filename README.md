@@ -1,50 +1,125 @@
-# Welcome to your Expo app 👋
+# Calorie Tracker Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplikasi mobile **tracking kalori** untuk mencatat konsumsi makanan, exercise, memantau progres, dan mendapatkan rekomendasi makanan sesuai target pengguna.
 
-## Get started
+Dibangun dengan [Expo](https://expo.dev) + React Native + TypeScript. Seluruh data disimpan secara lokal di perangkat melalui SQLite, sehingga aplikasi tetap bisa dipakai secara offline.
 
-1. Install dependencies
+## Fitur
 
-   ```bash
-   npm install
-   ```
+| Modul | Fitur |
+| --- | --- |
+| **Auth** | Registrasi dan login dengan isolasi data per pengguna (`user_id`) |
+| **Home** | Ringkasan intake harian, sisa budget kalor, komposisi makro, dan streak |
+| **Tracking** | Mencatat makanan per jam makan, air minum, dan exercise, lengkap dengan grafik |
+| **Workout** | Katalog workout, timer latihan, dan riwayat workout yang tersimpan |
+| **Progress** | Analisis mingguan, bulanan, dan tahunan, distribusi makro, serta tren progres |
+| **Rekomendasi** | Rekomendasi makanan otomatis berdasarkan sisa kalor, goal, dan preferensi |
+| **Profile** | Data profil (usia, berat, tinggi, jenis kelamin) dan pengaturan target kalor |
 
-2. Start the app
+## Tab Aplikasi
 
-   ```bash
-   npx expo start
-   ```
+| Tab | Keterangan |
+| --- | --- |
+| **Home** | Dashboard harian |
+| **Progress** | Analisis dan tren |
+| **Workout** | Latihan |
+| **Tracking** | Pencatatan makanan dan exercise |
+| **Rekomendasi** | Saran makanan |
+| **Profile** | Profil pengguna |
 
-In the output, you'll find options to open the app in a
+## Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Expo SDK 54](https://expo.dev) dan React Native 0.81
+- [Expo Router](https://docs.expo.dev/router/) untuk file-based routing dengan typed routes
+- [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/) sebagai database lokal
+- React 19 dan TypeScript
+- react-native-chart-kit untuk visualisasi grafik
+- @react-native-async-storage untuk menyimpan preferensi ringan
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Struktur Project
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+.
+├── app/                   # Routing (expo-router)
+│   ├── _layout.tsx        # Root layout
+│   ├── login.tsx          # Login
+│   ├── register.tsx       # Registrasi
+│   ├── db.ts              # Inisialisasi skema SQLite dan query helper
+│   └── (tabs)/            # Tab utama aplikasi
+│       ├── index.tsx          # Home
+│       ├── progress.tsx       # Progress
+│       ├── workout.tsx        # Workout
+│       ├── tracking.tsx       # Tracking
+│       ├── recommendation.tsx # Rekomendasi
+│       └── profile.tsx        # Profile
+├── components/            # Komponen UI reusable
+├── constants/             # Tema dan konstanta
+├── hooks/                 # Custom hooks
+├── services/              # Integrasi API (mlApi.ts)
+├── utils/                 # Logika bisnis
+│   ├── knapsack.ts                # Greedy knapsack berdasarkan budget kalor
+│   ├── recommendationEngine.ts    # Engine rekomendasi makanan
+│   ├── recommendationPolicy.ts    # Kebijakan: LIGHT / BALANCED / HIGH_PROTEIN / MAIN_MEAL
+│   ├── goalConfig.ts              # Konfigurasi goal: maintain / gain / loss
+│   └── filterUtils.ts
+└── assets/
+    ├── food.json          # Master data makanan
+    └── tree.json          # Data workout
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Menjalankan Project
 
-## Learn more
+```bash
+# 1. Install dependency
+npm install
 
-To learn more about developing your project with Expo, look at the following resources:
+# 2. Jalankan dev server
+npx expo start
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Setelah itu pilih platform dari terminal: **Android emulator**, **iOS simulator**, **Expo Go**, atau **web**.
 
-## Join the community
+Script yang tersedia:
 
-Join our community of developers creating universal apps.
+```bash
+npm start        # Expo dev server
+npm run android  # Build dan jalankan di Android
+npm run ios      # Build dan jalankan di iOS
+npm run web      # Jalankan di web
+npm run lint     # ESLint
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Database
+
+Database `simplefit.db` dibuat otomatis saat aplikasi dijalankan. Tabel yang digunakan:
+
+- `users` — profil pengguna dan target kalor
+- `food_items` — catatan makanan per tanggal dan jam makan
+- `exercises` — catatan exercise dan kalor terbakar
+- `daily_goals` — target harian
+- `drinks` — catatan air minum
+- `workouts_history` dan `workout_exercises` — riwayat workout beserta detail latihan
+- `progress_history` — ringkasan progres
+
+Seluruh query diisolasi berdasarkan `user_id` agar data antar pengguna tidak saling tercampur.
+
+> File `.db` tidak di-commit ke repository dan sudah masuk ke `.gitignore`.
+
+## Rekomendasi Makanan
+
+Sistem rekomendasi berjalan melalui dua jalur:
+
+1. **Offline (default)** — `utils/recommendationEngine.ts` memilih kandidat makanan dari `assets/food.json`, lalu `utils/knapsack.ts` menyusun kombinasi yang paling memenuhi sisa budget kalor. Pilihan juga mempertimbangkan goal pengguna (`utils/goalConfig.ts`) dan kondisi harian (`utils/recommendationPolicy.ts`).
+2. **ML API (opsional)** — bila backend ML berjalan di `http://10.0.2.2:8000`, aplikasi memanggil endpoint `POST /predict` melalui `services/mlApi.ts`. Endpoint tersebut mengembalikan daftar makanan beserta skor dan digunakan sebagai peringkat alternatif.
+
+   `10.0.2.2` adalah alias `localhost` dari Android emulator. Untuk perangkat fisik, ganti dengan alamat IP LAN komputer Anda.
+
+## Catatan Keamanan
+
+Password saat ini disimpan langsung di tabel `users` tanpa hashing. Repository ini ditujukan untuk keperluan demo dan portofolio. Jangan dipakai untuk data sensitif sebelum menambahkan hashing (bcrypt atau argon2) serta mekanisme autentikasi yang sesungguhnya.
+
+File `backend/*.db` dan `.env` sudah diabaikan oleh git.
+
+## Lisensi
+
+Dibuat sebagai proyek pribadi dan portofolio.
